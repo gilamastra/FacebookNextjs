@@ -9,6 +9,6 @@
   }
   .inputIcon {
     @apply flex items-center  space-x-1 hover:bg-gray-200 flex-grow
-    justify-center p-2 rounded-xl cursor-pointer;
+    justify-center p-2 rounded-xl cursor-pointer transition duration-200;
   }
 }
