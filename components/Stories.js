@@ -1,4 +1,6 @@
+import { useSession } from "next-auth/client";
 import StoryCard from "./StoryCard";
+import { PlusSmIcon } from "@heroicons/react/solid";
 
 const stories = [
   {
@@ -29,8 +31,12 @@ const stories = [
 ];
 
 const Stories = () => {
+  const [session] = useSession();
+
   return (
-    <div className="flex justify-center space-x-3 mx-auto">
+    <div className="flex justify-center  space-x-3 mx-auto ">
+      <StoryCard src={session.user.image} add={session.user.name} />
+
       {stories.map((story) => {
         return (
           <StoryCard

@@ -2,19 +2,20 @@ import { useSession } from "next-auth/client";
 import Image from "next/image";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
-import { useRef, useState } from "react";
-import { info } from "autoprefixer";
+import { useEffect, useRef, useState } from "react";
+
 import { db, storage } from "../firebase";
 import firebase from "firebase";
 
 const InputBox = () => {
   const [session] = useSession();
+  const [chosenEmoji, setChosenEmoji] = useState(null);
   const [imageToPost, setImageToPost] = useState(null);
+  const [loading, isLoading] = useState(true);
+
   const sendPost = (e) => {
     e.preventDefault();
-
     if (!inputRef.current.value) return;
-
     db.collection("posts")
       .add({
         message: inputRef.current.value,
@@ -69,6 +70,9 @@ const InputBox = () => {
   const removeImage = () => {
     setImageToPost(null);
   };
+  useEffect(() => {
+    isLoading(false);
+  }, []);
 
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
@@ -113,7 +117,7 @@ const InputBox = () => {
         )}
       </div>
       <div className="flex justify-evenly p-3 border-t">
-        <div className="inputIcon">
+        <div className="inputIcon flex-col sm:flex-row    ">
           <VideoCameraIcon className="h-7 text-red-500" />
           <p className="text-xs sm:text-sm xl:text-base">
             Live Video
@@ -121,7 +125,7 @@ const InputBox = () => {
         </div>
         <div
           onClick={() => filepickerRef.current.click()}
-          className="inputIcon"
+          className="inputIcon flex-col sm:flex-row "
         >
           <CameraIcon className="h-7 text-green-400" />
           <p className="text-xs sm:text-sm xl:text-base">
@@ -134,7 +138,8 @@ const InputBox = () => {
             type="file"
           />
         </div>
-        <div className="inputIcon">
+
+        <div className="inputIcon  flex-col sm:flex-row ">
           <EmojiHappyIcon className="h-7 text-yellow-300" />
           <p className="text-xs sm:text-sm xl:text-base">
             Feeling/Activity

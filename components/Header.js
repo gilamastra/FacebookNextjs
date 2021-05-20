@@ -19,12 +19,13 @@ import HeaderIcon from "./HeaderIcon";
 const Header = () => {
   const [session] = useSession();
   return (
-    <div className="sticky  top-0 z-50 bg-white flex  items-center pg-2 lg:px-5 shadow-md">
+    <div className="sticky    top-0 z-50 bg-white flex  items-center pg-1 lg:px-10 shadow-md">
       <Image
         src="https://links.papareact.com/5me"
-        height={40}
+        className="h-2 w-2"
         layout="fixed"
         width={40}
+        height={40}
       />
       <div className="flex ml-2  items-center rounded-full bg-gray-100 p-2">
         <SearchIcon className="h-6 text-gray-600" />
@@ -45,14 +46,14 @@ const Header = () => {
       </div>
 
       <div className="flex items-center sm:space-x-2 justify-end">
-        <Image
-          onClick={signOut}
-          className="rounded-full cursor-pointer"
-          src={session.user.image}
-          width={40}
-          height={40}
-          layout="fixed"
-        />
+        <div className="w-7 h-7 mx-1 md:mx0 md:w-8 md:h-8 xl:w-10 xl:h-10  relative">
+          <Image
+            onClick={signOut}
+            className="rounded-full cursor-pointer"
+            src={session.user.image}
+            layout="fill"
+          />
+        </div>
         <p className="font-semibold pr-3 whitespace-nowrap">
           {session.user.name}
         </p>

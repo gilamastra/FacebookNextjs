@@ -11,3 +11,4 @@ export default NextAuth({
     // ...add more providers here
   ],
 });
+console.log(Providers);

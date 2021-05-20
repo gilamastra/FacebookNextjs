@@ -5,12 +5,15 @@ const Posts = ({ posts }) => {
   const [realtimePosts] = useCollection(
     db.collection("posts").orderBy("timestamp", "desc")
   );
+  console.log(posts);
   return (
     <div>
       {realtimePosts
         ? realtimePosts?.docs.map((post) => {
+            console.log(post);
             return (
               <Post
+                id={post.id}
                 key={post.id}
                 name={post.data().name}
                 message={post.data().message}
@@ -23,6 +26,7 @@ const Posts = ({ posts }) => {
           })
         : posts.map((post) => {
             <Post
+              id={post.id}
               key={post.id}
               name={post.name}
               message={post.message}

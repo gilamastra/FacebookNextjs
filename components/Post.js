@@ -3,8 +3,13 @@ import {
   ChatAltIcon,
   ShareIcon,
   ThumbUpIcon,
+  TrashIcon,
+  XIcon,
 } from "@heroicons/react/outline";
+import { useSession } from "next-auth/client";
+import { db, storage } from "../firebase";
 const Post = ({
+  id,
   name,
   message,
   email,
@@ -12,10 +17,31 @@ const Post = ({
   image,
   timestamp,
 }) => {
+  const deletePost = (id) => {
+    db.collection("posts")
+      .doc(id)
+      .delete()
+      .then(() => {
+        if (postImage) {
+          storage.ref(`posts/${id}`).delete();
+        }
+      });
+  };
+  const [user] = useSession();
+  let Trash = null;
+  if (user.user.email === email) {
+    Trash = (
+      <TrashIcon
+        onClick={() => deletePost(id)}
+        className="absolute hover:text-red-600 transition duration-200 w-5 md:w-6 lg:w-7 top-4 cursor-pointer right-4 "
+      />
+    );
+  }
+
   return (
     <div className="flex flex-col ">
       <div className="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
-        <div className="flex items-center space-x-2 ">
+        <div className="flex items-center space-x-2 relative">
           <img
             src={image}
             width={40}
@@ -23,6 +49,7 @@ const Post = ({
             className="rounded-full"
             alt=""
           />
+          {Trash && Trash}
           <div>
             <p className="font-medium">{name}</p>
             {timestamp ? (
